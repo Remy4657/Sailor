@@ -1,0 +1,7 @@
+export const FETCH_DATA_LOGIN = "FETCH_DATA_LOGIN";
+export const FETCH_DATA_ERROR = "FETCH_DATA_ERROR";
+export const FETCH_DATA_SUCCESS = "FETCH_DATA_SUCCESS";
+export const LOGOUT = "LOGOUt";
+export const INITIAL_CART_REDUX = "INITIAL_CART_REDUX";
+export const INCREASE = "INCREASE";
+export const DECREASE = "DECREASE";
