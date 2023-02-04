@@ -14,6 +14,9 @@ module.exports = {
             cartId: {
                 type: Sequelize.INTEGER,
             },
+            qty: {
+                type: Sequelize.INTEGER,
+            },
             createdAt: {
                 allowNull: false,
                 type: Sequelize.DATE

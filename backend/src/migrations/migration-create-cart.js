@@ -12,9 +12,40 @@ module.exports = {
                 type: Sequelize.INTEGER,
             },
 
-            qty: {
+            firstname: {
+                type: Sequelize.STRING
+            },
+            lastname: {
+                type: Sequelize.STRING
+            },
+            email: {
+                type: Sequelize.STRING
+            },
+            phone: {
+                type: Sequelize.STRING
+            },
+            totalMoney: {
                 type: Sequelize.INTEGER
             },
+            address: {
+                type: Sequelize.STRING
+            },
+            commune: {
+                type: Sequelize.STRING
+            },
+            district: {
+                type: Sequelize.STRING
+            },
+            city: {
+                type: Sequelize.STRING
+            },
+            codeCart: {
+                type: Sequelize.STRING
+            },
+
+            // qty: {
+            //     type: Sequelize.INTEGER
+            // },
             createdAt: {
                 allowNull: false,
                 type: Sequelize.DATE

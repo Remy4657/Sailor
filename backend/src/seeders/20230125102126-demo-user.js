@@ -14,7 +14,7 @@ module.exports = {
     await queryInterface.bulkInsert('Product',
       [
         {
-          cartId: 1,
+
           name: 'SAN PHAM 1',
           price: 100000,
           priceOld: 200000,
@@ -23,7 +23,7 @@ module.exports = {
           description: "Dep"
         },
         {
-          cartId: 1,
+
           name: 'SAN PHAM 2',
           price: 100000,
           priceOld: 200000,
@@ -33,7 +33,7 @@ module.exports = {
         },
 
         {
-          cartId: 2,
+
           name: 'SAN PHAM 3',
           price: 100000,
           priceOld: 200000,
@@ -42,7 +42,7 @@ module.exports = {
           description: "Dep"
         },
         {
-          cartId: 2,
+
           name: 'SAN PHAM 4',
           price: 100000,
           priceOld: 200000,
@@ -51,7 +51,7 @@ module.exports = {
           image: "https://evara.vn/uploads/plugin/product_items/384/icon.jpg"
         },
         {
-          cartId: 2,
+
           name: 'SAN PHAM 5',
           price: 100000,
           priceOld: 200000,

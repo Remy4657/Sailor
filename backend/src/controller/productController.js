@@ -28,7 +28,7 @@ const testApi = (req, res) => {
 };
 const readProductDetailFunc = async (req, res) => {
     try {
-        console.log('req: ', req.params.id)
+        //console.log('req: ', req.params.id)
         let data = await productService.getProductDetail(req.params.id)
 
         return res.status(200).json({

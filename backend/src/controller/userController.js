@@ -25,7 +25,7 @@ const userRegisterFunc = async (req, res) => {
 const userLoginFunc = async (req, res) => {
     try {
 
-        console.log('req body login: ', req.body)
+        //console.log('req body login: ', req.body)
         let data = await userService.userLogin(req.body)
         //console.log('req data register: ', data)
 

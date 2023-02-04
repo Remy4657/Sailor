@@ -28,8 +28,17 @@ const initApiRoutes = (app) => {
     router.post("/cart/read",
         cartController.readFunc
     )
+    router.get("/cart-all/read",
+        cartController.readAllFunc
+    )
     router.put("/update-cart-qty",
         cartController.updateCartFunc
+    )
+    router.delete("/delete-cart",
+        cartController.deleteCartFunc
+    )
+    router.post("/cart/add",
+        cartController.addToCartFunc
     )
 
     return app.use("/api/v1", router);

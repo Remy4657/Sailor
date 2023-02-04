@@ -3,7 +3,7 @@ import configViewEngine from "./config/viewEngine";
 // import initWebRoutes from "./routes/web";
 import initApiRoutes from "./routes/api";
 import bodyParser from "body-parser";
-import connection from "./config/connectDB";
+import { connection } from "./config/connectDB";
 require("dotenv").config(); // giúp lấy các biến trong file .env
 
 const app = express();

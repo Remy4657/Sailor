@@ -16,16 +16,46 @@ module.exports = {
 
                 {
                     userId: 1,
-                    qty: 4
+                    firstname: "dat1",
+                    lastname: "trong",
+                    email: "dat1@gmail.com",
+                    phone: "5456546",
+                    totalMoney: 87688,
+                    address: 'x81',
+                    commune: 'nm',
+                    district: 'nl',
+                    city: 'hn',
+                    codeCart: '7686',
 
                 },
                 {
                     userId: 2,
-                    qty: 2,
+                    firstname: "dat2",
+                    lastname: "trong",
+                    email: "dat2@gmail.com",
+                    phone: "5456546",
+                    totalMoney: 87688,
+                    address: 'x82',
+                    commune: 'nm',
+                    district: 'nl',
+                    city: 'hn',
+                    codeCart: '7686',
+
                 },
                 {
                     userId: 1,
-                    qty: 3,
+
+                    firstname: "dat3",
+                    lastname: "trong",
+                    email: "dat3@gmail.com",
+                    phone: "5456546",
+                    totalMoney: 87688,
+                    address: 'x83',
+                    commune: 'nm',
+                    district: 'nl',
+                    city: 'hn',
+                    codeCart: '7686',
+
 
                 }
 

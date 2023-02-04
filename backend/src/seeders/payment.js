@@ -11,25 +11,13 @@ module.exports = {
          *   isBetaMember: false
          * }], {});
         */
-        await queryInterface.bulkInsert('Cart_Detail',
+        await queryInterface.bulkInsert('Payment',
             [
                 {
-                    productId: 1,
-                    cartId: 1,
-                    qty: 1
-
+                    method: 'tien mat'
                 },
                 {
-                    productId: 2,
-                    cartId: 2,
-                    qty: 3
-
-                },
-                {
-                    productId: 3,
-                    cartId: 1,
-                    qty: 2
-
+                    method: 'ck'
                 }
             ], {});
     },
