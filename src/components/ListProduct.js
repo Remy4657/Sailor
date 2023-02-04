@@ -1,6 +1,4 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
-
 import './owl.carousel.css'
 import './main.css'
 import './ListProduct.scss'
@@ -25,7 +23,7 @@ const ListProduct = () => {
         //let res = await fetchAllUser()
         if (res && res.data.DT) {
 
-            // console.log('data: ', res.data.DT) 
+            console.log('all data: ', res.data.DT)
             setListProduct(res.data.DT)
 
         }
@@ -49,8 +47,6 @@ const ListProduct = () => {
                         </div>
                     </div>
                     <div class="row">
-
-
                         {listProduct ? listProduct.map((item, index) => {
                             return (
                                 <Product item={item} />

@@ -7,7 +7,10 @@ const INITIAL_STATE = {
         auth: false,
         token: "",
     },
-    cart: [],
+    cart: localStorage.getItem("cart")
+        ? JSON.parse(sessionStorage.getItem("cart"))
+        : [],
+    cartAll: [],
     isLoading: false,
     isError: false,
 };
@@ -50,13 +53,22 @@ const userReducer = (state = INITIAL_STATE, action) => {
                     token: "",
                     email: "",
                 },
+                cart: [...action.cart]
             };
 
         case actionTypes.INITIAL_CART_REDUX:
             //const productRemove = state.cart.find((x) => x.id === action.payload.id);
+            sessionStorage.setItem('cart', JSON.stringify(action.cart))
             return {
                 ...state,
                 cart: [...action.cart]
+
+            };
+        case actionTypes.INITIAL_CARTALL_REDUX:
+            //const productRemove = state.cart.find((x) => x.id === action.payload.id);
+            return {
+                ...state,
+                cartAll: [...action.cart]
 
             };
         case actionTypes.INCREASE:
@@ -64,7 +76,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 cart: state.cart.map((x) =>
-                    x.id === action.idProduct ? { ...x, qty: x.qty + 1 } : x
+                    x.id === action.idProduct ? { ...x, Products: { ...x.Products, Cart_Detail: { ...x.Products.Cart_Detail, qty: x.Products.Cart_Detail.qty + 1 } } } : x
                 ),
             };
         case actionTypes.DECREASE:
@@ -72,9 +84,24 @@ const userReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 cart: state.cart.map((x) =>
-                    x.id === action.idProduct && x.qty > 1 ? { ...x, qty: x.qty - 1 } : x
+                    x.id === action.idProduct && x.Products.Cart_Detail.qty > 1 ? { ...x, Products: { ...x.Products, Cart_Detail: { ...x.Products.Cart_Detail, qty: x.Products.Cart_Detail.qty - 1 } } } : x
                 ),
             };
+        case actionTypes.DELETE_CART:
+
+            return {
+                ...state,
+                cart: state.cart.filter((x) => x.id !== action.idProduct),
+            };
+        case actionTypes.ADD_TO_CART:
+            console.log('state cart: ', state.cart)
+            const newItem = action.payload;
+            const existItem = state.cart.find((item) => item.Products.id === newItem.id);
+            const cartItems = existItem ? state.cart.map((item) => (item.Products.id === existItem.Products.id ? newItem : item))
+                : [...state.cart, newItem];
+            sessionStorage.setItem("cart", JSON.stringify(cartItems));
+            return { ...state, cart: cartItems };
+
         default:
             return state;
     }

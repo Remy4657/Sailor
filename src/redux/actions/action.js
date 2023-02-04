@@ -21,11 +21,18 @@ export const FETCH_DATA_ERROR = () => {
 export const LOGOUT = () => {
     return {
         type: actionTypes.LOGOUT,
+        cart: []
     };
 };
 export const INITIAL_CART_REDUX = (cart) => {
     return {
         type: actionTypes.INITIAL_CART_REDUX,
+        cart: cart
+    }
+}
+export const INITIAL_CARTALL_REDUX = (cart) => {
+    return {
+        type: actionTypes.INITIAL_CARTALL_REDUX,
         cart: cart
     }
 }
@@ -39,5 +46,30 @@ export const DECREASE = (idProduct) => {
     return {
         type: actionTypes.DECREASE,
         idProduct: idProduct
+    }
+}
+export const DELETE_CART = (idProduct) => {
+    return {
+        type: actionTypes.DELETE_CART,
+        idProduct: idProduct
+    }
+}
+export const ADD_TO_CART = (product, qty) => {
+    console.log('product: ', product)
+    return {
+        // type: actionTypes.ADD_TO_CART,
+        // payload: {
+
+        //     // //Carts: { ...product.Carts, Cart_Detail: { ...product.Carts.Cart_detail, qty } }
+        //     Products: { Cart_Detail: {} }
+        // }
+    }
+    //  product: product
+}
+
+export const SET_CART = () => {
+    return {
+        type: actionTypes.ADD_TO_CART,
+        cart: []
     }
 }

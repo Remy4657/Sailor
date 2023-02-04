@@ -1,7 +1,31 @@
+import { useDispatch } from "react-redux"
 import { Link } from "react-router-dom"
+import { useSelector } from "react-redux"
+import { toast } from 'react-toastify'
+
+import { ADD_TO_CART } from "../redux/actions/action"
+import { addToCart } from "../service/cartService"
 
 const Product = (props) => {
+    const dispatch = useDispatch()
     const { item } = props
+    let idAccount = sessionStorage.getItem("idAccount")
+    let cart = useSelector((state) => state.user.cart)
+    let lengthCart = cart.length
+
+    const addCart = async (e) => {
+        const existItem = cart.find((x) => x.Products.id === item.id);
+        const qty = existItem ? existItem.Products.Cart_Detail.qty + 1 : 1;
+        //console.log('item: ', item) 
+        // 
+        e.preventDefault()
+        //dispatch(ADD_TO_CART(item, qty))
+
+        let res = await addToCart({ ...item, idAccount: idAccount, lengCartAll: lengthCart })
+        console.log('res add product: ', res)
+        toast.success('Add product to cart success!')
+
+    }
     return (
         <div class="col-lg-3 col-md-6">
             <div class="single-product">
@@ -13,7 +37,7 @@ const Product = (props) => {
                         <h6 class="l-through">{item.priceOld}</h6>
                     </div>
                     <div class="prd-bottom">
-                        <a href="" class="social-info">
+                        <a href="" class="social-info" onClick={(e) => addCart(e)}>
                             <span class="ti-bag"><i class="fa-solid fa-cart-shopping"></i></span>
                             <p class="hover-text">add to bag</p>
                         </a>
