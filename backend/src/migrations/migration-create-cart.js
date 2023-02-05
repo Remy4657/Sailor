@@ -42,6 +42,9 @@ module.exports = {
             codeCart: {
                 type: Sequelize.STRING
             },
+            ShippingId: {
+                type: Sequelize.INTEGER
+            },
 
             // qty: {
             //     type: Sequelize.INTEGER

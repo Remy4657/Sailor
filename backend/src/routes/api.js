@@ -23,6 +23,9 @@ const initApiRoutes = (app) => {
     router.post("/user/login",
         userController.userLoginFunc
     )
+    router.post("/user/checkout",
+        userController.userCheckoutFunc
+    )
 
     // cart api
     router.post("/cart/read",
@@ -39,6 +42,9 @@ const initApiRoutes = (app) => {
     )
     router.post("/cart/add",
         cartController.addToCartFunc
+    )
+    router.put("/shipping/update",
+        cartController.updateShippingFunc
     )
 
     return app.use("/api/v1", router);

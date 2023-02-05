@@ -41,6 +41,39 @@ const userRegister = async (data) => {
     }
 }
 
+const userCheckout = async (data) => {
+    try {
+
+        let cart = await db.Cart.findOne({
+            where: { userId: data.idAccount }
+        })
+        await cart.update({
+            firstname: data.firstname,
+            lastname: data.lastname,
+            email: data.email,
+            phone: data.phone,
+            totalMoney: data.totalMoney,
+            address: data.address,
+            commune: data.commune,
+            district: data.district,
+            city: data.city,
+            codeCart: data.codeCart
+        }) //, password: hashPassword
+        return {
+            EM: 'Update cart ok',
+            EC: 1,
+            DT: []
+        }
+    } catch (error) {
+        console.log(error)
+        return {
+            EM: 'something wrong from user',
+            EC: -1,
+            DT: []
+        }
+    }
+}
+
 const userLogin = async (data) => {
     try {
 
@@ -78,5 +111,5 @@ const userLogin = async (data) => {
     }
 }
 module.exports = {
-    userRegister, userLogin
+    userRegister, userLogin, userCheckout
 }

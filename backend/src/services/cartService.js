@@ -235,6 +235,29 @@ const addToCart = async (item) => {
         }
     }
 }
+const updateShipping = async (data) => {
+    try {
+
+        let shipping = await db.Cart.findOne({
+            where: { userId: data.idAccount }
+        })
+        await shipping.update({
+            ShippingId: data.id
+        }) //, password: hashPassword
+        return {
+            EM: 'Update cart ok',
+            EC: 1,
+            DT: []
+        }
+    } catch (error) {
+        console.log(error)
+        return {
+            EM: 'something wrong from user',
+            EC: -1,
+            DT: []
+        }
+    }
+}
 module.exports = {
-    getAllCart, getCart, updateCart, deleteCart, addToCart
+    getAllCart, getCart, updateCart, deleteCart, addToCart, updateShipping
 }

@@ -106,7 +106,28 @@ const addToCartFunc = async (req, res) => {
         });
     }
 }
+const updateShippingFunc = async (req, res) => {
+    try {
+
+        // console.log('shipping update', req.body)
+        let data = await cartService.updateShipping(req.body)
+
+        return res.status(200).json({
+            EM: data.EM,
+            EC: data.EC,
+            DT: data.DT,
+        });
+
+    } catch (e) {
+        console.log(e)
+        return res.status(500).json({
+            EM: "error from server",
+            EC: "-1",
+            DT: "",
+        });
+    }
+}
 
 module.exports = {
-    readFunc, updateCartFunc, deleteCartFunc, addToCartFunc, readAllFunc
+    readFunc, updateCartFunc, deleteCartFunc, addToCartFunc, readAllFunc, updateShippingFunc
 }
