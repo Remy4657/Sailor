@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { useLocation } from "react-router-dom"
-import { fetchCart, updateCart, deleteCart, fetchAllCart } from "../service/cartService"
+import { fetchCart, updateCart, deleteCart, fetchAllCart, updateShipping } from "../service/cartService"
 import _ from 'lodash'
 import { useDispatch, useSelector } from "react-redux"
 import { Link } from "react-router-dom"
@@ -9,44 +9,32 @@ import { Link } from "react-router-dom"
 import './Cart.scss'
 import { INITIAL_CART_REDUX, INITIAL_CARTALL_REDUX, INCREASE, DECREASE, DELETE_CART } from "../redux/actions/action"
 
-
 const Cart = () => {
     const navigate = useNavigate()
     const { search } = useLocation();
     const dispatch = useDispatch()
-
 
     const redirectInUrl = new URLSearchParams(search).get("redirect");
     const redirect = redirectInUrl ? redirectInUrl : "/";
     const [arrCart, setArrCart] = useState([])
     const [total, setTotal] = useState(0)
     const [shipping, setShipping] = useState(0)
+    const [methodShipping, setMethodShipping] = useState(0)
 
     let cart = useSelector((state) => state.user.cart)
 
     var a = []
     var tt = 0
-    //console.log('arr cart: ', arrCart)
-    // var a = _.cloneDeep(arrCart)
-    // var tt = _.cloneDeep(total)
-
     let username = sessionStorage.getItem("username")
-
     let idAccount = sessionStorage.getItem("idAccount")
     console.log('id account: ', idAccount)
     useEffect(() => {
 
-        //console.log('id account: ', idAccount)
-        // if () {
-
-        // }
         if (!username) {
             navigate("/login?redirect=/cart")
         }
         fetchAllCartF()
         fetchCartF()
-        // console.log('cart qty: ', cart.qty)
-
     }, [])
 
     const fetchCartF = async () => {
@@ -93,6 +81,21 @@ const Cart = () => {
         const res = await deleteCart(item)
         console.log('res delete cart: ', res)
         fetchCartF()
+    }
+    const handleProceed = async (e) => {
+        e.preventDefault()
+
+        let id
+        if (shipping == 5) {
+            id = 1
+            //  method = 'economical'
+        }
+        else {
+            id = 2
+            // method = 'flash'
+        }
+        let res = await updateShipping({ id, idAccount: idAccount })
+        console.log('update shipping: ', res)
     }
 
     return (
@@ -211,13 +214,13 @@ const Cart = () => {
                                     <td>
                                         <div class="shipping_box">
                                             <ul class="list">
-                                                <li className="d-flex"> Flat Rate: $5.00<input className="radio" type="radio" value={5} name="radAnswer" onChange={(e => setShipping(e.target.value))} /></li>
-                                                <li className="d-flex">Free Shipping<input className="radio" type="radio" value={0} name="radAnswer" onChange={(e => setShipping(e.target.value))} /></li>
-                                                <li className="d-flex">Flat Rate: $10.00<input className="radio" type="radio" value={10} name="radAnswer" onChange={(e => setShipping(e.target.value))} /></li>
-                                                <li className="d-flex active" >Local Delivery: $2.00<input className="radio" type="radio" value={2} name="radAnswer" onChange={(e => setShipping(e.target.value))} /></li>
+                                                <li className="d-flex"> Economical delivery: $5.00<input className="radio" type="radio" value={5} name="radAnswer" onChange={(e => setShipping(e.target.value))} /></li>
+                                                <li className="d-flex">flash Shipping: $10.00<input className="radio" type="radio" value={10} name="radAnswer" onChange={(e => setShipping(e.target.value))} /></li>
+                                                {/* <li className="d-flex">Flat Rate: $10.00<input className="radio" type="radio" value={10} name="radAnswer" onChange={(e => setShipping(e.target.value))} /></li>
+                                                <li className="d-flex active" >Local Delivery: $2.00<input className="radio" type="radio" value={2} name="radAnswer" onChange={(e => setShipping(e.target.value))} /></li> */}
                                             </ul>
-                                            <h6>Calculate Shipping <i class="fa fa-caret-down" aria-hidden="true"></i></h6>
-                                            <select class="shipping_select">
+                                            {/* <h6>Calculate Shipping <i class="fa fa-caret-down" aria-hidden="true"></i></h6> */}
+                                            {/* <select class="shipping_select">
                                                 <option value="1">Bangladesh</option>
                                                 <option value="2">India</option>
                                                 <option value="4">Pakistan</option>
@@ -228,7 +231,7 @@ const Cart = () => {
                                                 <option value="4">Select a State</option>
                                             </select>
                                             <input type="text" placeholder="Postcode/Zipcode" />
-                                            <a class="gray_btn" href="#">Update Details</a>
+                                            <a class="gray_btn" href="#">Update Details</a> */}
                                         </div>
                                     </td>
                                 </tr>
@@ -259,7 +262,10 @@ const Cart = () => {
                                     <td>
                                         <div class="checkout_btn_inner d-flex align-items-center">
                                             <a class="gray_btn" href="#">Continue Shopping</a>
-                                            <Link class="primary-btn" to="/checkout">Proceed to checkout</Link>
+                                            <div onClick={(e) => handleProceed(e)}>
+                                                <Link class="primary-btn" to="/checkout" >Proceed to checkout</Link>
+                                            </div>
+
                                         </div>
                                     </td>
                                 </tr>

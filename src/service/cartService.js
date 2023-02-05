@@ -16,6 +16,10 @@ const addToCart = (item) => {
     return axios.post("http://localhost:8080/api/v1/cart/add", { ...item })
 }
 
+const updateShipping = (item) => {
+    return axios.put("http://localhost:8080/api/v1/shipping/update", { ...item })
+}
+
 export {
-    fetchCart, updateCart, deleteCart, fetchAllCart, addToCart
+    fetchCart, updateCart, deleteCart, fetchAllCart, addToCart, updateShipping
 }

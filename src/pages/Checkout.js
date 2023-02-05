@@ -1,6 +1,66 @@
+import { useState, useEffect } from 'react'
 import './Checkout.scss'
+import { userCheckout } from '../service/userService'
+import { useDispatch } from "react-redux"
+import { useNavigate } from 'react-router-dom'
+
+
+import { fetchCart } from "../service/cartService"
 
 const Checkout = () => {
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+    const [total, setTotal] = useState(0)
+    var a = []
+    var tt = 0
+    let idAccount = sessionStorage.getItem("idAccount")
+    let username = sessionStorage.getItem("username")
+
+    //console.log('id account: ', idAccount)
+    const [dataCheckout, setDataCheckout] = useState({
+        firstname: '',
+        lastname: '',
+        phone: '',
+        email: '',
+        address: '',
+        commune: '',
+        district: '',
+        city: '',
+        codeCart: '',
+        idAccount: +idAccount
+    })
+    useEffect(() => {
+        if (!username) {
+            navigate("/login?redirect=/cart")
+        }
+        fetchCartF()
+    }, [])
+
+
+    const fetchCartF = async () => {
+
+        let resCart = await fetchCart({ idAccount })
+        console.log('res cart fetch: ', resCart.data.DT)
+        tt = 0
+        a = []
+        if (resCart && resCart.data.DT) {
+            // dispatch(INITIAL_CARTALL_REDUX(resCart.data.DT))
+            resCart.data.DT.map((item, index) => {
+                if (item.Products.name != null && item.User.id != null) {
+                    a.push(item)
+                    tt = tt + item.Products.price * item.Products.Cart_Detail.qty
+                }
+            })
+        }
+
+        console.log('a: ', a)
+
+        setTotal(tt)
+    }
+    const handleProceed = async () => {
+        let res = await userCheckout(dataCheckout)
+        console.log('res post checkout: ', res)
+    }
     return (
         <>
             {/* <!-- Start Banner Area --> */}
@@ -29,64 +89,44 @@ const Checkout = () => {
                                 <h3>Billing Details</h3>
                                 <form class="row contact_form" action="#" method="post" novalidate="novalidate">
                                     <div class="col-md-6 form-group p_star">
-                                        <input type="text" class="form-control" id="first" name="name" />
-                                        <span class="placeholder" data-placeholder="First name"></span>
+                                        <input placeholder='Firstname' type="text" class="form-control" id="first" name="name" onChange={(e) => setDataCheckout({ ...dataCheckout, firstname: e.target.value })} />
+                                        {/* <span class="placeholder" data-placeholder="First name"></span> */}
                                     </div>
                                     <div class="col-md-6 form-group p_star">
-                                        <input type="text" class="form-control" id="last" name="name" />
-                                        <span class="placeholder" data-placeholder="Last name"></span>
+                                        <input placeholder='Lastname' type="text" class="form-control" id="last" name="name" onChange={(e) => setDataCheckout({ ...dataCheckout, lastname: e.target.value })} />
+                                        {/* <span class="placeholder" ></span> */}
                                     </div>
-                                    <div class="col-md-12 form-group">
+                                    {/* <div class="col-md-12 form-group">
                                         <input type="text" class="form-control" id="company" name="company" placeholder="Company name" />
+                                    </div> */}
+                                    <div class="col-md-6 form-group p_star">
+                                        <input placeholder='Phone number' type="text" class="form-control" id="number" name="number" onChange={(e) => setDataCheckout({ ...dataCheckout, phone: e.target.value })} />
+                                        {/* <span class="placeholder" data-placeholder="Phone number"></span> */}
                                     </div>
                                     <div class="col-md-6 form-group p_star">
-                                        <input type="text" class="form-control" id="number" name="number" />
-                                        <span class="placeholder" data-placeholder="Phone number"></span>
+                                        <input placeholder='Email' type="text" class="form-control" id="email" name="compemailany" onChange={(e) => setDataCheckout({ ...dataCheckout, email: e.target.value })} />
+                                        {/* <span class="placeholder" data-placeholder="Email Address"></span> */}
                                     </div>
-                                    <div class="col-md-6 form-group p_star">
-                                        <input type="text" class="form-control" id="email" name="compemailany" />
-                                        <span class="placeholder" data-placeholder="Email Address"></span>
-                                    </div>
-                                    {/* <div class="col-md-12 form-group p_star">
-                                        <select class="country_select">
-                                            <option value="1">Country</option>
-                                            <option value="2">Country</option>
-                                            <option value="4">Country</option>
-                                        </select>
-                                    </div> */}
-                                    {/* <div class="col-md-12 form-group p_star">
-                                        <input type="text" class="form-control" id="add1" name="add1" />
-                                        <span class="placeholder" data-placeholder="Address line 01"></span>
+
+                                    <div class="col-md-12 form-group p_star">
+                                        <input placeholder='Address' type="text" class="form-control" id="nha" name="nha" onChange={(e) => setDataCheckout({ ...dataCheckout, address: e.target.value })} />
+                                        {/* <span class="placeholder" data-placeholder="Số nhà/đường"></span> */}
                                     </div>
                                     <div class="col-md-12 form-group p_star">
-                                        <input type="text" class="form-control" id="add2" name="add2" />
-                                        <span class="placeholder" data-placeholder="Address line 02"></span>
-                                    </div> */}
-                                    <div class="col-md-12 form-group p_star">
-                                        <input type="text" class="form-control" id="nha" name="nha" />
-                                        <span class="placeholder" data-placeholder="Số nhà/đường"></span>
+                                        <input placeholder='Commune' type="text" class="form-control" id="xa" name="xa" onChange={(e) => setDataCheckout({ ...dataCheckout, commune: e.target.value })} />
+                                        {/* <span class="placeholder" data-placeholder="Xã/phường"></span> */}
                                     </div>
                                     <div class="col-md-12 form-group p_star">
-                                        <input type="text" class="form-control" id="xa" name="xa" />
-                                        <span class="placeholder" data-placeholder="Xã/phường"></span>
+                                        <input placeholder='District' type="text" class="form-control" id="district" name="district" onChange={(e) => setDataCheckout({ ...dataCheckout, district: e.target.value })} />
+                                        {/* <span class="placeholder" data-placeholder="Huyện"></span> */}
                                     </div>
                                     <div class="col-md-12 form-group p_star">
-                                        <input type="text" class="form-control" id="district" name="district" />
-                                        <span class="placeholder" data-placeholder="Huyện"></span>
+                                        <input placeholder='City' type="text" class="form-control" id="city" name="city" onChange={(e) => setDataCheckout({ ...dataCheckout, city: e.target.value })} />
+                                        {/* <span class="placeholder" data-placeholder="Tỉnh/thành"></span> */}
                                     </div>
-                                    <div class="col-md-12 form-group p_star">
-                                        <input type="text" class="form-control" id="city" name="city" />
-                                        <span class="placeholder" data-placeholder="Tỉnh/thành"></span>
-                                    </div>
-                                    {/* <div class="col-md-12 form-group p_star">
-                                        <select class="country_select">
-                                            <option value="1">District</option>
-                                            <option value="2">District</option>
-                                            <option value="4">District</option>
-                                        </select>
-                                    </div> */}
+
                                     <div class="col-md-12 form-group">
-                                        <input type="text" class="form-control" id="zip" name="zip" placeholder="Postcode/ZIP" />
+                                        <input type="text" class="form-control" id="zip" name="zip" placeholder="Postcode/ZIP" onChange={(e) => setDataCheckout({ ...dataCheckout, codeCart: e.target.value })} />
                                     </div>
                                     <div class="col-md-12 form-group">
 
@@ -113,7 +153,7 @@ const Checkout = () => {
                                     <ul class="list list_2">
                                         <li><a href="#">Subtotal <span>$2160.00</span></a></li>
                                         <li><a href="#">Shipping <span>Flat rate: $50.00</span></a></li>
-                                        <li><a href="#">Total <span>$2210.00</span></a></li>
+                                        <li><a href="#">Total <span>${total}</span></a></li>
                                     </ul>
                                     <div class="payment_item">
                                         <div class="radion_btn">
@@ -139,7 +179,7 @@ const Checkout = () => {
                                         <label for="f-option4">I’ve read and accept the </label>
                                         <a href="#">terms & conditions*</a>
                                     </div>
-                                    <a class="primary-btn" href="#">Proceed to Paypal</a>
+                                    <a class="primary-btn" href="#" onClick={() => handleProceed()}>Proceed to Paypal</a>
                                 </div>
                             </div>
                         </div>

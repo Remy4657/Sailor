@@ -1,5 +1,8 @@
+import { useState } from "react"
+import { useDispatch } from "react-redux"
 import { Link } from "react-router-dom"
 
+import { fetchCart } from "../service/cartService"
 const Category = () => {
 
     return (
