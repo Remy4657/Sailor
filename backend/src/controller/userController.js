@@ -3,7 +3,7 @@ import userService from '../services/userService'
 const userRegisterFunc = async (req, res) => {
     try {
 
-        //console.log('req body: ', req.body)
+        console.log('req user register body: ', req.body)
         let data = await userService.userRegister(req.body)
         //console.log('req data register: ', data)
 

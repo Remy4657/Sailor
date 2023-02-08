@@ -17,7 +17,7 @@ const readFunc = async (req, res) => {
         return res.status(500).json({
             EM: "error from server",
             EC: "-1",
-            DT: "",
+            DT: ""
         });
     }
 }
@@ -128,6 +128,28 @@ const updateShippingFunc = async (req, res) => {
     }
 }
 
+const addUserToCartFunc = async (req, res) => {
+    try {
+
+        console.log('id account add to cart controller: ', req.body.idAccount)
+        let data = await cartService.addUserToCart(req.body.idAccount)
+
+        return res.status(200).json({
+            EM: data.EM,
+            EC: data.EC,
+            DT: data.DT,
+        });
+
+    } catch (e) {
+        console.log(e)
+        return res.status(500).json({
+            EM: "error from server",
+            EC: "-1",
+            DT: "",
+        });
+    }
+}
+
 module.exports = {
-    readFunc, updateCartFunc, deleteCartFunc, addToCartFunc, readAllFunc, updateShippingFunc
+    readFunc, updateCartFunc, deleteCartFunc, addToCartFunc, readAllFunc, updateShippingFunc, addUserToCartFunc
 }

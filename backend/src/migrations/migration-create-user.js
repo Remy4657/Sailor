@@ -8,7 +8,7 @@ module.exports = {
                 primaryKey: true,
                 type: Sequelize.INTEGER
             },
-            cartId: {
+            CartId: {
                 allowNull: false,
                 autoIncrement: true,
                 type: Sequelize.INTEGER

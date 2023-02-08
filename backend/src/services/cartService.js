@@ -11,7 +11,7 @@ const getAllCart = async (idAccount) => {
             raw: true,
             nest: true
         });
-        console.log('cart: ', cart)
+        //console.log('cart: ', cart)
         if (cart) {
             // console.log('check user', cart)
             return {
@@ -64,7 +64,7 @@ const getCart = async (idAccount) => {
             raw: true,
             nest: true
         });
-        console.log('get cart by id: ', cart)
+        //console.log('get cart by id: ', cart)
         if (cart) {
             // console.log('check user', cart)
             return {
@@ -101,7 +101,7 @@ const updateCart = async (data) => {
             }
         }
         let cartDetail = await db.Cart_Detail.findOne({
-            where: { cartId: data.id, productId: data.Products.id }
+            where: { CartId: data.id, ProductId: data.Products.id }
         })
         if (cartDetail && data.type === 'plus') {
             await cartDetail.update({
@@ -159,7 +159,7 @@ const deleteCart = async (idProduct) => {
             // })
             await db.Cart_Detail.destroy({
                 where: {
-                    productId: idProduct
+                    ProductId: idProduct
                 }
             })
             return {
@@ -196,8 +196,8 @@ const addToCart = async (item) => {
 
             let product = await db.Cart_Detail.findOne({
                 where: {
-                    productId: item.id,
-                    cartId: productCart.id
+                    ProductId: item.id,
+                    CartId: productCart.id
                 }
             })// jjjj
 
@@ -205,18 +205,18 @@ const addToCart = async (item) => {
                 console.log('add new success')
                 // await db.Cart.create({ userId: +item.idAccount }) hbhb
                 // const DetaiL = sequelize.define('Cart_Detail', {
-                //     productId: DataTypes.INTEGER,
-                //     cartId: DataTypes.INTEGER,
+                //     ProductId: DataTypes.INTEGER,
+                //     CartId: DataTypes.INTEGER,
                 //     qty: DataTypes.INTEGER
                 // }, { timestamps: false });
-                await db.Cart_Detail.build({ productId: item.id, cartId: productCart.id, qty: 1 }).save()
+                await db.Cart_Detail.build({ ProductId: item.id, CartId: productCart.id, qty: 1 }).save()
 
             }
             else {
                 await db.Cart_Detail.update(
                     { qty: product.qty + 1 },
                     {
-                        where: { productId: item.id, },
+                        where: { ProductId: item.id, },
                     }
                 );
             }
@@ -258,6 +258,56 @@ const updateShipping = async (data) => {
         }
     }
 }
+
+const addUserToCart = async (idAccount) => {
+    try {
+        if (!idAccount) {
+            return {
+                EM: 'id account not found',
+                EC: 0,
+                DT: []
+            }
+        }
+        else {
+            let userCart = await db.Cart.findOne({
+                where: {
+                    userId: +idAccount,
+
+                }
+            })
+            let user = await db.User.findOne({
+                where: {
+                    id: +idAccount,
+
+                }
+            })
+            if (!userCart) {
+
+                await db.Cart.build({ userId: idAccount, email: user.email }).save()
+                return {
+                    EM: 'Add user to cart success',
+                    EC: 0,
+                    DT: []
+                }
+            }
+            else {
+                return {
+                    EM: 'User logined prev',
+                    EC: 0,
+                    DT: []
+                }
+            }
+
+        }
+    } catch (error) {
+        console.log(error)
+        return {
+            EM: 'something wrong from user',
+            EC: -1,
+            DT: []
+        }
+    }
+}
 module.exports = {
-    getAllCart, getCart, updateCart, deleteCart, addToCart, updateShipping
+    getAllCart, getCart, updateCart, deleteCart, addToCart, updateShipping, addUserToCart
 }

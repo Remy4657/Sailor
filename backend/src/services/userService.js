@@ -1,31 +1,60 @@
 import db from "../models";
 const { Op } = require("sequelize");
+import bcrypt from "bcryptjs";
 
+const salt = bcrypt.genSaltSync(10);
+
+const checkEmailExist = async (userEmail) => {
+    let user = await db.User.findOne({
+        where: { email: userEmail },
+    });
+    if (user) {
+        return true;
+    }
+    return false;
+};
+const checkPhoneExist = async (userPhone) => {
+    let user = await db.User.findOne({
+        where: { phone: userPhone },
+    });
+    if (user) {
+        return true;
+    }
+    return false;
+};
 const userRegister = async (data) => {
     try {
-        // let isEmailExist = await loginRegisterService.checkEmailExist(data.email);
-        // if (isEmailExist === true) {
-        //     return {
-        //         EM: "The email is already exist",
-        //         EC: 0,
-        //         DT: 'email'
-        //     };
-        // }
+        let isEmailExist = await checkEmailExist(data.email);
+        if (isEmailExist === true) {
+            return {
+                EM: "The email is already exist",
+                EC: 0,
+                DT: 'email'
+            };
+        }
         // check phone number
-        // let isPhoneExist = await loginRegisterService.checkPhoneExist(data.phone);
-        // if (isPhoneExist === true) {
-        //     return {
-        //         EM: "The phone number is already exist",
-        //         EC: 0,
-        //         DT: 'phone'
-        //     };
-        // }
+        let isPhoneExist = await checkPhoneExist(data.phone);
+        if (isPhoneExist === true) {
+            return {
+                EM: "The phone number is already exist",
+                EC: 0,
+                DT: 'phone'
+            };
+        }
+        if (data.password !== data.confirmPassword) {
+            return {
+                EM: "Confirm password invalid",
+                EC: 0,
+                DT: []
+            };
+        }
         // hash password:
-        // const hashPassword = bcrypt.hashSync(data.password, salt);
+        const hashPassword = bcrypt.hashSync(data.password, salt);
 
 
         //console.log('data new user: ', data)
-        await db.User.create({ username: data.username, email: data.email, phone: data.phone, password: data.password }) //, password: hashPassword
+        await db.User.create({ username: data.username, email: data.email, phone: data.phone, password: hashPassword }) //, password: hashPassword
+        // await db.Cart.create({ username: data.username, email: data.email, phone: data.phone, password: data.password })
         return {
             EM: 'Create new user ok',
             EC: 1,
@@ -47,6 +76,13 @@ const userCheckout = async (data) => {
         let cart = await db.Cart.findOne({
             where: { userId: data.idAccount }
         })
+        if (data.firstname == '' || data.lastname == '' || data.phone == '' || data.address == '' || data.commune == '' || data.district == '' || data.city == '' || data.codeCart == '') {
+            return {
+                EM: 'Not empty input',
+                EC: 0,
+                DT: []
+            }
+        }
         await cart.update({
             firstname: data.firstname,
             lastname: data.lastname,
@@ -57,7 +93,9 @@ const userCheckout = async (data) => {
             commune: data.commune,
             district: data.district,
             city: data.city,
-            codeCart: data.codeCart
+            codeCart: data.codeCart,
+            totalMoney: data.totalMoney,
+            paymentId: +data.idPayment
         }) //, password: hashPassword
         return {
             EM: 'Update cart ok',
@@ -73,6 +111,9 @@ const userCheckout = async (data) => {
         }
     }
 }
+const checkPassword = (inputPassword, hashPassword) => {
+    return bcrypt.compareSync(inputPassword, hashPassword);
+};
 
 const userLogin = async (data) => {
     try {
@@ -86,7 +127,7 @@ const userLogin = async (data) => {
                 ]
             }
         });
-        if (user && user.password == data.password) {
+        if (user && checkPassword(data.password, user.password)) {
             return {
                 EM: 'Login success',
                 EC: 1,
@@ -95,7 +136,7 @@ const userLogin = async (data) => {
         }
         else {
             return {
-                EM: 'Invalid password or user name',
+                EM: 'Invalid password or username',
                 EC: 0,
                 DT: []
             }

@@ -11,21 +11,15 @@ module.exports = {
          *   isBetaMember: false
          * }], {});
         */
-        await queryInterface.bulkInsert('User',
+        await queryInterface.bulkInsert('Shipping',
             [
                 {
-                    username: 'dat',
-                    cartId: 1,
-                    email: 'dat@gmail.com',
-                    password: 1234,
-                    phone: 1234
+                    value: 5,
+                    method: 'flash'
                 },
                 {
-                    username: 'test',
-                    cartId: 2,
-                    email: 'test@gmail.com',
-                    password: 1234,
-                    phone: 1234
+                    value: 10,
+                    method: 'economical'
                 }
             ], {});
     },

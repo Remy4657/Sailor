@@ -8,10 +8,10 @@ module.exports = {
                 primaryKey: true,
                 type: Sequelize.INTEGER
             },
-            productId: {
+            ProductId: {
                 type: Sequelize.INTEGER,
             },
-            cartId: {
+            CartId: {
                 type: Sequelize.INTEGER,
             },
             qty: {

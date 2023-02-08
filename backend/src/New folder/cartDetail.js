@@ -11,14 +11,26 @@ module.exports = {
          *   isBetaMember: false
          * }], {});
         */
-        await queryInterface.bulkInsert('Payment',
+        await queryInterface.bulkInsert('Cart_Detail',
             [
-                {
-                    method: 'tiền mặt'
-                },
-                {
-                    method: 'chuyển khoản'
-                }
+                // {
+                //     ProductId: 1,
+                //     CartId: 1,
+                //     qty: 1
+
+                // },
+                // {
+                //     ProductId: 2,
+                //     CartId: 2,
+                //     qty: 3
+
+                // },
+                // {
+                //     ProductId: 3,
+                //     CartId: 1,
+                //     qty: 2
+
+                // }
             ], {});
     },
 

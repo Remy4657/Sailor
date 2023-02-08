@@ -2,6 +2,7 @@ import express from "express";
 import productController from '../controller/productController'
 import userController from '../controller/userController'
 import cartController from '../controller/cartController'
+import orderController from '../controller/orderController'
 
 const router = express.Router();
 
@@ -45,6 +46,16 @@ const initApiRoutes = (app) => {
     )
     router.put("/shipping/update",
         cartController.updateShippingFunc
+    )
+    router.post("/order/read",
+        orderController.readFunc
+    )
+    router.post("/order-confirm/read",
+        orderController.readOrderConfirmFunc
+    )
+    // add user to cart
+    router.post("/add-user-to-cart",
+        cartController.addUserToCartFunc
     )
 
     return app.use("/api/v1", router);

@@ -11,25 +11,21 @@ module.exports = {
          *   isBetaMember: false
          * }], {});
         */
-        await queryInterface.bulkInsert('Cart_Detail',
+        await queryInterface.bulkInsert('User',
             [
                 {
-                    productId: 1,
-                    cartId: 1,
-                    qty: 1
-
+                    username: 'dat',
+                    CartId: 1,
+                    email: 'dat@gmail.com',
+                    password: 1234,
+                    phone: 1234
                 },
                 {
-                    productId: 2,
-                    cartId: 2,
-                    qty: 3
-
-                },
-                {
-                    productId: 3,
-                    cartId: 1,
-                    qty: 2
-
+                    username: 'test',
+                    CartId: 2,
+                    email: 'test@gmail.com',
+                    password: 1234,
+                    phone: 1234
                 }
             ], {});
     },
