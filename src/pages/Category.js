@@ -1,9 +1,28 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useDispatch } from "react-redux"
 import { Link } from "react-router-dom"
 
 import { fetchCart } from "../service/cartService"
+import { fetchAllProduct } from "../service/productService"
 const Category = () => {
+    const [listProduct, setListProduct] = useState('')
+
+    useEffect(() => {
+        console.log('efect')
+        fetchProducts()
+
+    }, [])
+
+    const fetchProducts = async () => {
+        let res = await fetchAllProduct()
+        //let res = await fetchAllUser()
+        if (res && res.data.DT) {
+
+            console.log('all data: ', res.data.DT)
+            setListProduct(res.data.DT)
+
+        }
+    }
 
     return (
         <>
@@ -211,171 +230,44 @@ const Category = () => {
                             <div className="row">
 
                                 {/* <!-- single product --> */}
-                                <div className="col-lg-4 col-md-6">
-                                    <div className="single-product">
-                                        <img className="img-fluid" src="https://evara.vn/uploads/plugin/product_items/384/icon.jpg" alt="" />
-                                        <div className="product-details">
-                                            <h6>addidas New Hammer sole
-                                                for Sports person</h6>
-                                            <div className="price">
-                                                <h6>$150.00</h6>
-                                                <h6 className="l-through">$210.00</h6>
-                                            </div>
-                                            <div className="prd-bottom">
-
-                                                <Link to="" className="social-info">
-                                                    <span className="ti-bag"></span>
-                                                    <p className="hover-text">add to bag</p>
-                                                </Link>
-                                                <Link to="" className="social-info">
-                                                    <span className="lnr lnr-heart"></span>
-                                                    <p className="hover-text">Wishlist</p>
-                                                </Link>
-                                                <Link to="" className="social-info">
-                                                    <span className="lnr lnr-sync"></span>
-                                                    <p className="hover-text">compare</p>
-                                                </Link>
-                                                <Link to="" className="social-info">
-                                                    <span className="lnr lnr-move"></span>
-                                                    <p className="hover-text">view more</p>
-                                                </Link>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
 
                                 {/* <!-- single product --> */}
-                                <div className="col-lg-4 col-md-6">
-                                    <div className="single-product">
-                                        <img className="img-fluid" src="https://evara.vn/uploads/plugin/product_items/384/icon.jpg" alt="" />
-                                        <div className="product-details">
-                                            <h6>addidas New Hammer sole
-                                                for Sports person</h6>
-                                            <div className="price">
-                                                <h6>$150.00</h6>
-                                                <h6 className="l-through">$210.00</h6>
-                                            </div>
-                                            <div className="prd-bottom">
+                                {listProduct ? listProduct.map((item, index) => {
+                                    return (
+                                        <div className="col-lg-4 col-md-6" key={`key ${index}`}>
+                                            <div className="single-product">
+                                                <img className="img-fluid" src={item.image} alt="" />
+                                                <div className="product-details">
+                                                    <h6>{item.name}</h6>
+                                                    <div className="price">
+                                                        <h6>${item.price}</h6>
+                                                        <h6 className="l-through">${item.priceOld}</h6>
+                                                    </div>
+                                                    <div className="prd-bottom">
 
-                                                <Link to="" className="social-info">
-                                                    <span className="ti-bag"></span>
-                                                    <p className="hover-text">add to bag</p>
-                                                </Link>
-                                                <Link to="" className="social-info">
-                                                    <span className="lnr lnr-heart"></span>
-                                                    <p className="hover-text">Wishlist</p>
-                                                </Link>
-                                                <Link to="" className="social-info">
-                                                    <span className="lnr lnr-sync"></span>
-                                                    <p className="hover-text">compare</p>
-                                                </Link>
-                                                <Link to="" className="social-info">
-                                                    <span className="lnr lnr-move"></span>
-                                                    <p className="hover-text">view more</p>
-                                                </Link>
+                                                        <Link to="" className="social-info">
+                                                            <span className="ti-bag"><i class="fa-solid fa-cart-shopping"></i></span>
+                                                            <p className="hover-text">Add to bag</p>
+                                                        </Link>
+                                                        <Link to="" className="social-info">
+                                                            <span className="lnr lnr-heart"><i class="fa-regular fa-heart"></i></span>
+                                                            <p className="hover-text">Wishlist</p>
+                                                        </Link>
+                                                        <Link to="" className="social-info">
+                                                            <span className="lnr lnr-sync"><i class="fa-solid fa-arrows-rotate"></i></span>
+                                                            <p className="hover-text">compare</p>
+                                                        </Link>
+                                                        <Link to="" className="social-info">
+                                                            <span className="lnr lnr-move"><i class="fa-solid fa-info"></i></span>
+                                                            <p className="hover-text">view more</p>
+                                                        </Link>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                                {/* <!-- single product --> */}
-                                <div className="col-lg-4 col-md-6">
-                                    <div className="single-product">
-                                        <img className="img-fluid" src="https://evara.vn/uploads/plugin/product_items/384/icon.jpg" alt="" />
-                                        <div className="product-details">
-                                            <h6>addidas New Hammer sole
-                                                for Sports person</h6>
-                                            <div className="price">
-                                                <h6>$150.00</h6>
-                                                <h6 className="l-through">$210.00</h6>
-                                            </div>
-                                            <div className="prd-bottom">
+                                    )
+                                }) : <div></div>}
 
-                                                <Link to="" className="social-info">
-                                                    <span className="ti-bag"></span>
-                                                    <p className="hover-text">add to bag</p>
-                                                </Link>
-                                                <Link to="" className="social-info">
-                                                    <span className="lnr lnr-heart"></span>
-                                                    <p className="hover-text">Wishlist</p>
-                                                </Link>
-                                                <Link to="" className="social-info">
-                                                    <span className="lnr lnr-sync"></span>
-                                                    <p className="hover-text">compare</p>
-                                                </Link>
-                                                <Link to="" className="social-info">
-                                                    <span className="lnr lnr-move"></span>
-                                                    <p className="hover-text">view more</p>
-                                                </Link>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                {/* <!-- single product --> */}
-                                <div className="col-lg-4 col-md-6">
-                                    <div className="single-product">
-                                        <img className="img-fluid" src="https://evara.vn/uploads/plugin/product_items/384/icon.jpg" alt="" />
-                                        <div className="product-details">
-                                            <h6>addidas New Hammer sole
-                                                for Sports person</h6>
-                                            <div className="price">
-                                                <h6>$150.00</h6>
-                                                <h6 className="l-through">$210.00</h6>
-                                            </div>
-                                            <div className="prd-bottom">
-
-                                                <Link to="" className="social-info">
-                                                    <span className="ti-bag"></span>
-                                                    <p className="hover-text">add to bag</p>
-                                                </Link>
-                                                <Link to="" className="social-info">
-                                                    <span className="lnr lnr-heart"></span>
-                                                    <p className="hover-text">Wishlist</p>
-                                                </Link>
-                                                <Link to="" className="social-info">
-                                                    <span className="lnr lnr-sync"></span>
-                                                    <p className="hover-text">compare</p>
-                                                </Link>
-                                                <Link to="" className="social-info">
-                                                    <span className="lnr lnr-move"></span>
-                                                    <p className="hover-text">view more</p>
-                                                </Link>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                {/* <!-- single product --> */}
-                                <div className="col-lg-4 col-md-6">
-                                    <div className="single-product">
-                                        <img className="img-fluid" src="https://evara.vn/uploads/plugin/product_items/384/icon.jpg" alt="" />
-                                        <div className="product-details">
-                                            <h6>addidas New Hammer sole
-                                                for Sports person</h6>
-                                            <div className="price">
-                                                <h6>$150.00</h6>
-                                                <h6 className="l-through">$210.00</h6>
-                                            </div>
-                                            <div className="prd-bottom">
-
-                                                <Link to="" className="social-info">
-                                                    <span className="ti-bag"></span>
-                                                    <p className="hover-text">add to bag</p>
-                                                </Link>
-                                                <Link to="" className="social-info">
-                                                    <span className="lnr lnr-heart"></span>
-                                                    <p className="hover-text">Wishlist</p>
-                                                </Link>
-                                                <Link to="" className="social-info">
-                                                    <span className="lnr lnr-sync"></span>
-                                                    <p className="hover-text">compare</p>
-                                                </Link>
-                                                <Link to="" className="social-info">
-                                                    <span className="lnr lnr-move"></span>
-                                                    <p className="hover-text">view more</p>
-                                                </Link>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </section>
                         {/* <!-- End Best Seller -->

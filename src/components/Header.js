@@ -48,7 +48,7 @@ const Header = () => {
 
                             <li className="dropdown"><a href="#"><span>SHOP</span> <i className="fa-solid fa-chevron-down"></i></a>
                                 <ul>
-                                    <li><Link to="/about">SHOP CATEGORY</Link></li>
+                                    <li><Link to="/category">SHOP CATEGORY</Link></li>
                                     <li><Link to="/product/detail">SHOP DETAIL</Link></li>
                                     <li><a href="#">Testimonials</a></li>
 
@@ -65,7 +65,7 @@ const Header = () => {
                             </li>
                             <li><a href="#">ABOUT</a></li>
                             <li><a href="#">BLOG</a></li>
-                            <li><a href="#">CONTACT</a></li>
+                            <li><Link to="/contact">CONTACT</Link></li>
                             <li className="search"><i className="fa-solid fa-magnifying-glass"></i></li>
                             <li className="cart"><Link to="/cart"><i className="fa-solid fa-cart-shopping"></i></Link></li>
                             {username ? <li className="dropdown"><Link className="getstarted ">{username}</Link>

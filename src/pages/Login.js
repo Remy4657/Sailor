@@ -1,5 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { userLogin } from '../service/userService'
+import { inserUserToCart } from '../service/cartService'
 import { useState } from 'react'
 import { toast } from 'react-toastify'
 import { useLocation } from 'react-router-dom'
@@ -33,7 +34,8 @@ const Login = () => {
                 token: "fake token",
             };
             let idAccount = res.data.DT
-            console.log('id user: ', idAccount)
+            let resadd = await inserUserToCart({ idAccount })
+            console.log('res add: ', resadd)
 
             localStorage.setItem("token", data.token);
 
@@ -90,7 +92,7 @@ const Login = () => {
                                         <input type="text" className="form-control" id="name" name="name" placeholder="Username" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Username or Email'" onChange={(e) => setUsername(e.target.value)} value={username} />
                                     </div>
                                     <div className="col-md-12 form-group">
-                                        <input type="text" className="form-control" id="name" name="name" placeholder="Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'" onChange={(e) => setPassword(e.target.value)} value={password} />
+                                        <input type="password" className="form-control" id="name" name="name" placeholder="Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'" onChange={(e) => setPassword(e.target.value)} value={password} />
                                     </div>
                                     <div className="col-md-12 form-group">
                                         {/* <div className="creat_account">

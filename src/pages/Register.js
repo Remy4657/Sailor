@@ -3,10 +3,8 @@ import { useState } from 'react'
 import { toast } from 'react-toastify';
 import { useNavigate } from "react-router-dom";
 
+
 import { userRegister } from '../service/userService'
-
-
-
 
 const Register = () => {
     const navigate = useNavigate();
@@ -21,11 +19,17 @@ const Register = () => {
 
     const handleRegister = async (e) => {
         e.preventDefault()
-        let data = { email, username, phone, password }
+        let data = { email, username, phone, password, confirmPassword }
         let res = await userRegister(data)
+        if (res && res.data.EC === 0) {
+            toast.error(res.data.EM)
+        }
+        else {
+            toast.success(res.data.EM)
+            navigate("/login")
+        }
 
-        toast.success(res.data.EM)
-        navigate("/login")
+
     }
     return (
         <>
@@ -63,7 +67,7 @@ const Register = () => {
                                 <h3>Sigh up to enter</h3>
                                 <form className="row login_form" action="" method="post" id="contactForm" novalidate="novalidate">
                                     <div className="col-md-12 form-group">
-                                        <input type="text" className="form-control" id="name" name="name" placeholder="Email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email'" value={email} onChange={(e) => setEmail(e.target.value)} />
+                                        <input type="email" className="form-control" id="name" name="name" placeholder="Email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email'" value={email} onChange={(e) => setEmail(e.target.value)} />
                                     </div>
                                     <div className="col-md-12 form-group">
                                         <input type="text" className="form-control" id="name" name="name" placeholder="Username" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Username'" onChange={(e) => setUsername(e.target.value)} />
@@ -72,10 +76,10 @@ const Register = () => {
                                         <input type="text" className="form-control" id="name" name="name" placeholder="Phone number" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone number'" onChange={(e) => setPhone(e.target.value)} />
                                     </div>
                                     <div className="col-md-12 form-group">
-                                        <input type="text" className="form-control" id="name" name="name" placeholder="Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'" onChange={(e) => setPassword(e.target.value)} />
+                                        <input type="password" className="form-control" id="name" name="name" placeholder="Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'" onChange={(e) => setPassword(e.target.value)} />
                                     </div>
                                     <div className="col-md-12 form-group">
-                                        <input type="text" className="form-control" id="name" name="name" placeholder="Confirm password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Confirm password'" />
+                                        <input type="password" className="form-control" id="name" name="name" placeholder="Confirm password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Confirm password'" onChange={(e) => setConfirmPassword(e.target.value)} />
                                     </div>
                                     {/* <div className="col-md-12 form-group">
                                         <div className="creat_account">

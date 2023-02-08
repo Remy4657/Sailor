@@ -16,8 +16,7 @@ const Product = (props) => {
     const addCart = async (e) => {
         const existItem = cart.find((x) => x.Products.id === item.id);
         const qty = existItem ? existItem.Products.Cart_Detail.qty + 1 : 1;
-        //console.log('item: ', item) 
-        // 
+
         e.preventDefault()
         //dispatch(ADD_TO_CART(item, qty))
 

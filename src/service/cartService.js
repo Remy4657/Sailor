@@ -19,7 +19,16 @@ const addToCart = (item) => {
 const updateShipping = (item) => {
     return axios.put("http://localhost:8080/api/v1/shipping/update", { ...item })
 }
+const fetchInfoOrder = (data) => {
+    return axios.post("http://localhost:8080/api/v1/order/read", data)
+}
+const fetchOrderConfirm = (data) => {
+    return axios.post("http://localhost:8080/api/v1/order-confirm/read", data)
+}
+const inserUserToCart = (item) => {
+    return axios.post("http://localhost:8080/api/v1/add-user-to-cart", { ...item })
+}
 
 export {
-    fetchCart, updateCart, deleteCart, fetchAllCart, addToCart, updateShipping
+    fetchCart, updateCart, deleteCart, fetchAllCart, addToCart, updateShipping, fetchInfoOrder, fetchOrderConfirm, inserUserToCart
 }

@@ -13,7 +13,7 @@ const Slider = () => {
                     <ol className="carousel-indicators" id="hero-carousel-indicators"></ol>
 
                     <div className="carousel-inner" role="listbox">
-                        {/* <!-- Slide 1 --> */}
+
                         <div
                             className="carousel-item active"
                             Style="background-image: url(../assets/img/slide/slide-1.jpg)"
@@ -38,7 +38,7 @@ const Slider = () => {
                             </div>
                         </div>
 
-                        {/* <!-- Slide 2 --> */}
+
                         <div
                             className="carousel-item"
                             Style="background-image: url(../assets/img/slide/slide-2.jpg)"
@@ -63,7 +63,7 @@ const Slider = () => {
                             </div>
                         </div>
 
-                        {/* <!-- Slide 3 --> */}
+
                         <div
                             className="carousel-item"
                             Style="background-image: url(../assets/img/slide/slide-3.jpg)"
@@ -89,7 +89,7 @@ const Slider = () => {
                         </div>
                     </div>
 
-                    <a
+                    {/* <a
                         className="carousel-control-prev"
                         href="#heroCarousel"
                         role="button"
@@ -99,9 +99,9 @@ const Slider = () => {
                             className="carousel-control-prev-icon bi bi-chevron-left"
                             aria-hidden="true"
                         ></span>
-                    </a>
+                    </a> */}
 
-                    <a
+                    {/* <a
                         className="carousel-control-next"
                         href="#heroCarousel"
                         role="button"
@@ -111,11 +111,9 @@ const Slider = () => {
                             className="carousel-control-next-icon bi bi-chevron-right"
                             aria-hidden="true"
                         ></span>
-                    </a>
+                    </a> */}
                 </div>
             </section>
-
-
 
         </>
     )

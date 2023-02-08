@@ -3,6 +3,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
+import './components/main.css'
 
 import Home from './pages/Home';
 import Header from './components/Header';
@@ -15,6 +16,7 @@ import Cart from "./pages/Cart";
 import Category from "./pages/Category";
 import Checkout from "./pages/Checkout";
 import ConfirmPayment from "./pages/ConfirmPayment";
+import Contact from "./pages/Contact";
 
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
@@ -100,6 +102,7 @@ function App() {
         <Route exact path="/product/detail/:id" element={<ProductDetail />} />
         <Route exact path="/login" element={<Login />} />
         <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
         <Route exact path="/" element={<Home />} />
 
       </Routes>

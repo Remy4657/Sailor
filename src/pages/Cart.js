@@ -3,11 +3,11 @@ import { useNavigate } from "react-router-dom"
 import { useLocation } from "react-router-dom"
 import { fetchCart, updateCart, deleteCart, fetchAllCart, updateShipping } from "../service/cartService"
 import _ from 'lodash'
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 import { Link } from "react-router-dom"
 
 import './Cart.scss'
-import { INITIAL_CART_REDUX, INITIAL_CARTALL_REDUX, INCREASE, DECREASE, DELETE_CART } from "../redux/actions/action"
+import { INITIAL_CART_REDUX, INITIAL_CARTALL_REDUX, INCREASE, DECREASE } from "../redux/actions/action"
 
 const Cart = () => {
     const navigate = useNavigate()
@@ -19,15 +19,15 @@ const Cart = () => {
     const [arrCart, setArrCart] = useState([])
     const [total, setTotal] = useState(0)
     const [shipping, setShipping] = useState(0)
-    const [methodShipping, setMethodShipping] = useState(0)
+    const [isSelected1, setIsSelected1] = useState(false);
+    const [isSelected2, setIsSelected2] = useState(false);
 
-    let cart = useSelector((state) => state.user.cart)
 
     var a = []
     var tt = 0
     let username = sessionStorage.getItem("username")
     let idAccount = sessionStorage.getItem("idAccount")
-    console.log('id account: ', idAccount)
+    // console.log('id account: ', idAccount)
     useEffect(() => {
 
         if (!username) {
@@ -40,7 +40,7 @@ const Cart = () => {
     const fetchCartF = async () => {
 
         let resCart = await fetchCart({ idAccount })
-        // console.log('res cart fetch: ', resCart.data.DT)
+        console.log('res cart fetch: ', resCart.data.DT)
         tt = 0
         a = []
         if (resCart && resCart.data.DT) {
@@ -53,20 +53,21 @@ const Cart = () => {
             })
         }
 
-        console.log('a: ', a)
+        //console.log('a: ', a)
         dispatch(INITIAL_CART_REDUX(a))
         setArrCart(a)
         setTotal(tt)
     }
     const fetchAllCartF = async () => {
         let res = await fetchAllCart()
-        console.log('res fetch all cart: ', res)
+        // console.log('res fetch all cart: ', res)
         if (res && res.data.DT) {
             dispatch(INITIAL_CARTALL_REDUX(res.data.DT))
         }
     }
+
     const handleCartUp = (cartProduct) => {
-        console.log('cart product: ', cartProduct)
+        // console.log('cart product: ', cartProduct)
         arrCart.map((item, index) => {
             if (item.Products.id === cartProduct.Products.id) {
                 item.Products.Cart_Detail.qty = item.Products.Cart_Detail.qty + 1
@@ -97,6 +98,16 @@ const Cart = () => {
         let res = await updateShipping({ id, idAccount: idAccount })
         console.log('update shipping: ', res)
     }
+
+    const onChange1 = (e) => {
+
+        setShipping(e.target.value)
+
+    };
+    const onChange2 = (e) => {
+        setShipping(e.target.value)
+
+    };
 
     return (
         // <!--================Cart Area =================-->
@@ -214,8 +225,8 @@ const Cart = () => {
                                     <td>
                                         <div class="shipping_box">
                                             <ul class="list">
-                                                <li className="d-flex"> Economical delivery: $5.00<input className="radio" type="radio" value={5} name="radAnswer" onChange={(e => setShipping(e.target.value))} /></li>
-                                                <li className="d-flex">flash Shipping: $10.00<input className="radio" type="radio" value={10} name="radAnswer" onChange={(e => setShipping(e.target.value))} /></li>
+                                                <li className="d-flex"> Economical delivery: $5.00<input onChange={(e) => onChange1(e)} className="radio" type="radio" value={5} name="radAnswer" /></li>
+                                                <li className="d-flex">flash Shipping: $10.00<input onChange={(e) => onChange2(e)} className="radio" type="radio" value={10} name="radAnswer" /></li>
                                                 {/* <li className="d-flex">Flat Rate: $10.00<input className="radio" type="radio" value={10} name="radAnswer" onChange={(e => setShipping(e.target.value))} /></li>
                                                 <li className="d-flex active" >Local Delivery: $2.00<input className="radio" type="radio" value={2} name="radAnswer" onChange={(e => setShipping(e.target.value))} /></li> */}
                                             </ul>

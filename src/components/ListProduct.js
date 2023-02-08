@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import './owl.carousel.css'
-import './main.css'
+
 import './ListProduct.scss'
 import Product from './Product'
 
@@ -49,7 +49,7 @@ const ListProduct = () => {
                     <div class="row">
                         {listProduct ? listProduct.map((item, index) => {
                             return (
-                                <Product item={item} />
+                                <Product key={`key-${index}`} item={item} />
 
                             )
                         }) : <div></div>}

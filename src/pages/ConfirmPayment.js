@@ -1,6 +1,43 @@
+import { useDispatch } from "react-redux"
+import { useNavigate } from 'react-router-dom'
+import { useState, useEffect } from 'react'
 
+import { fetchCart, fetchInfoOrder, fetchOrderConfirm } from "../service/cartService"
 
 const ConfirmPayment = () => {
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+    const [total, setTotal] = useState(0)
+    const [productCheckout, setProductCheckout] = useState({ checkout: [], shipping: 0, totalMoney: 0 })
+    const [infoOrder, setInfoOrder] = useState({})
+    var shipping = 0
+    var tt = 0
+    let idAccount = sessionStorage.getItem("idAccount")
+    let username = sessionStorage.getItem("username")
+
+    useEffect(() => {
+        if (!username) {
+            navigate("/login?redirect=/thank-you")
+        }
+        //fetchCartF()
+        fetchOrderFunc()
+
+    }, [])
+    let inforOrder
+    const fetchOrderFunc = async () => {
+        //alert('me')
+        let res = await fetchInfoOrder({ idAccount })
+        console.log('res fetch order thankyou: ', res.data.DT)
+        //setInfoOrder(res.data.DT[0])
+        inforOrder = res.data.DT[0]
+        setProductCheckout({
+            ...productCheckout,
+            checkout: [...res.data.DT],
+            shipping: res.data.DT[0].Shipping.value,
+            totalMoney: res.data.DT.reduce((total, currentValue, currentIndex) => (total + res.data.DT[currentIndex].Products.price * res.data.DT[currentIndex].Products.Cart_Detail.qty), res.data.DT[0].Shipping.value)
+        })
+        console.log('infor order: ', inforOrder)
+    }
     return (
         <>
             {/* <!-- Start Banner Area --> */}
@@ -28,10 +65,10 @@ const ConfirmPayment = () => {
                             <div class="details_item">
                                 <h4>Order Info</h4>
                                 <ul class="list">
-                                    <li><a href="#"><span>Order number</span> : 60235</a></li>
-                                    <li><a href="#"><span>Date</span> : Los Angeles</a></li>
-                                    <li><a href="#"><span>Total</span> : USD 2210</a></li>
-                                    <li><a href="#"><span>Payment method</span> : Check payments</a></li>
+                                    {/* <li><a href="#"><span>Mã đơn hàng</span> : { }</a></li>
+                                    <li><a href="#"><span>Tên</span> : {inforOrder.firstname}</a></li>
+                                    <li><a href="#"><span>Họ</span> :{inforOrder.lastname}</a></li>
+                                    <li><a href="#"><span>SDT</span> : {inforOrder.phone}</a></li> */}
                                 </ul>
                             </div>
                         </div>
@@ -39,24 +76,14 @@ const ConfirmPayment = () => {
                             <div class="details_item">
                                 <h4>Billing Address</h4>
                                 <ul class="list">
-                                    <li><a href="#"><span>Street</span> : 56/8</a></li>
-                                    <li><a href="#"><span>City</span> : Los Angeles</a></li>
-                                    <li><a href="#"><span>Country</span> : United States</a></li>
-                                    <li><a href="#"><span>Postcode </span> : 36952</a></li>
+                                    {/* <li><a href="#"><span>Địa chỉ</span> : {inforOrder.address}</a></li>
+                                    <li><a href="#"><span>Xã</span> : { }</a></li>
+                                    <li><a href="#"><span>Huyện: </span> : {inforOrder.district}</a></li>
+                                    <li><a href="#"><span>Tỉnh/thành phố </span> : {inforOrder.city}</a></li> */}
                                 </ul>
                             </div>
                         </div>
-                        <div class="col-lg-4">
-                            <div class="details_item">
-                                <h4>Shipping Address</h4>
-                                <ul class="list">
-                                    <li><a href="#"><span>Street</span> : 56/8</a></li>
-                                    <li><a href="#"><span>City</span> : Los Angeles</a></li>
-                                    <li><a href="#"><span>Country</span> : United States</a></li>
-                                    <li><a href="#"><span>Postcode </span> : 36952</a></li>
-                                </ul>
-                            </div>
-                        </div>
+
                     </div>
                     <div class="order_details_table">
                         <h2>Order Details</h2>
@@ -70,50 +97,21 @@ const ConfirmPayment = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>
-                                            <p>Pixelstore fresh Blackberry</p>
-                                        </td>
-                                        <td>
-                                            <h5>x 02</h5>
-                                        </td>
-                                        <td>
-                                            <p>$720.00</p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <p>Pixelstore fresh Blackberry</p>
-                                        </td>
-                                        <td>
-                                            <h5>x 02</h5>
-                                        </td>
-                                        <td>
-                                            <p>$720.00</p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <p>Pixelstore fresh Blackberry</p>
-                                        </td>
-                                        <td>
-                                            <h5>x 02</h5>
-                                        </td>
-                                        <td>
-                                            <p>$720.00</p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h4>Subtotal</h4>
-                                        </td>
-                                        <td>
-                                            <h5></h5>
-                                        </td>
-                                        <td>
-                                            <p>$2160.00</p>
-                                        </td>
-                                    </tr>
+                                    {productCheckout.checkout.map((item, index) => (
+                                        <tr key={`key-${index}`}>
+                                            <td>
+                                                <p>{item.Products.name}</p>
+                                            </td>
+                                            <td>
+                                                <h5>x {item.Products.Cart_Detail.qty}</h5>
+                                            </td>
+                                            <td>
+                                                <p>${item.Products.Cart_Detail.qty * item.Products.price}</p>
+                                            </td>
+                                        </tr>
+                                    ))}
+
+
                                     <tr>
                                         <td>
                                             <h4>Shipping</h4>
@@ -122,7 +120,7 @@ const ConfirmPayment = () => {
                                             <h5></h5>
                                         </td>
                                         <td>
-                                            <p>Flat rate: $50.00</p>
+                                            <p>${productCheckout.shipping}.00</p>
                                         </td>
                                     </tr>
                                     <tr>
@@ -133,7 +131,7 @@ const ConfirmPayment = () => {
                                             <h5></h5>
                                         </td>
                                         <td>
-                                            <p>$2210.00</p>
+                                            <p>${productCheckout.totalMoney}.00</p>
                                         </td>
                                     </tr>
                                 </tbody>
