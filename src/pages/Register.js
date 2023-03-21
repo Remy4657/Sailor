@@ -28,9 +28,8 @@ const Register = () => {
             toast.success(res.data.EM)
             navigate("/login")
         }
-
-
     }
+
     return (
         <>
             <section className="banner-area organic-breadcrumb">

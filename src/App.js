@@ -17,6 +17,8 @@ import Category from "./pages/Category";
 import Checkout from "./pages/Checkout";
 import ConfirmPayment from "./pages/ConfirmPayment";
 import Contact from "./pages/Contact";
+import Blog from "./pages/Blog";
+
 
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
@@ -47,7 +49,6 @@ function App() {
   let username = sessionStorage.getItem("username")
 
   let idAccount = sessionStorage.getItem("idAccount")
-  console.log('id account: ', idAccount)
   useEffect(() => {
 
     //console.log('id account: ', idAccount)
@@ -66,7 +67,7 @@ function App() {
   const fetchCartF = async () => {
 
     let resCart = await fetchCart({ idAccount })
-    console.log('res cart fetch: ', resCart.data.DT)
+    console.log('res cart fetch at app: ', resCart.data.DT)
 
     a = []
     if (resCart && resCart.data.DT) {
@@ -92,8 +93,10 @@ function App() {
   }
   return (
     <div className="">
+
       <Header />
       <Routes>
+        <Route exact path="/blog" element={<Blog />} />
         <Route exact path="/thank-you" element={<ConfirmPayment />} />
         <Route exact path="/cart" element={<Cart />} />
         <Route exact path="/checkout" element={<Checkout />} />

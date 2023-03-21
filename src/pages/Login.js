@@ -38,7 +38,6 @@ const Login = () => {
             console.log('res add: ', resadd)
 
             localStorage.setItem("token", data.token);
-
             // id user se xem cart của người đó
             sessionStorage.setItem("idAccount", idAccount);
             sessionStorage.setItem("username", username);

@@ -6,14 +6,24 @@ import Product from './Product'
 
 import '../service/productService'
 import { fetchAllProduct } from '../service/productService'
+import { useDispatch, useSelector } from 'react-redux'
+import { INITIAL_LIST_PRODUCT } from '../redux/actions/action'
 
 
 const ListProduct = () => {
-
+    const dispatch = useDispatch()
     const [listProduct, setListProduct] = useState('')
 
+    let listProductRedux = useSelector((state) => state.user.listProduct)
+
+
     useEffect(() => {
-        console.log('efect')
+        setListProduct(listProductRedux)
+
+    }, [listProductRedux])
+
+    useEffect(() => {
+        // console.log('efect')
         fetchProducts()
 
     }, [])
@@ -23,8 +33,8 @@ const ListProduct = () => {
         //let res = await fetchAllUser()
         if (res && res.data.DT) {
 
-            console.log('all data: ', res.data.DT)
-            setListProduct(res.data.DT)
+            // console.log('all data: ', res.data.DT)
+            dispatch(INITIAL_LIST_PRODUCT(res.data.DT))
 
         }
     }

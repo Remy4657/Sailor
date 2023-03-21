@@ -3,6 +3,7 @@
 const Slider = () => {
     return (
         <>
+            {/* <input type="text" placeholder="Search product..." /> */}
             <section id="hero">
                 <div
                     id="heroCarousel"

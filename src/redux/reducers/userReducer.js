@@ -11,6 +11,7 @@ const INITIAL_STATE = {
         ? JSON.parse(sessionStorage.getItem("cart"))
         : [],
     cartAll: [],
+    listProduct: [],
     isLoading: false,
     isError: false,
 };
@@ -69,6 +70,13 @@ const userReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 cartAll: [...action.cart]
+
+            };
+        case actionTypes.INITIAL_LIST_PRODUCT:
+            //const productRemove = state.cart.find((x) => x.id === action.payload.id);
+            return {
+                ...state,
+                listProduct: [...action.listProduct]
 
             };
         case actionTypes.INCREASE:

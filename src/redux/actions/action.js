@@ -36,6 +36,12 @@ export const INITIAL_CARTALL_REDUX = (cart) => {
         cart: cart
     }
 }
+export const INITIAL_LIST_PRODUCT = (listProduct) => {
+    return {
+        type: actionTypes.INITIAL_LIST_PRODUCT,
+        listProduct: listProduct
+    }
+}
 export const INCREASE = (idProduct) => {
     return {
         type: actionTypes.INCREASE,
