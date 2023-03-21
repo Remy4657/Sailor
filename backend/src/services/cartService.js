@@ -210,7 +210,6 @@ const addToCart = async (item) => {
                 //     qty: DataTypes.INTEGER
                 // }, { timestamps: false });
                 await db.Cart_Detail.build({ ProductId: item.id, CartId: productCart.id, qty: 1 }).save()
-
             }
             else {
                 await db.Cart_Detail.update(

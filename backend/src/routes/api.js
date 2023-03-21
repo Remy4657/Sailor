@@ -3,6 +3,12 @@ import productController from '../controller/productController'
 import userController from '../controller/userController'
 import cartController from '../controller/cartController'
 import orderController from '../controller/orderController'
+import blogController from '../controller/blogController'
+import categoryController from '../controller/categoryController'
+import paymentController from '../controller/paymentController'
+import shippingController from '../controller/shippingController'
+
+import adminProductController from "../controller/admin/adminProductController";
 
 const router = express.Router();
 
@@ -24,10 +30,17 @@ const initApiRoutes = (app) => {
     router.post("/user/login",
         userController.userLoginFunc
     )
+
     router.post("/user/checkout",
         userController.userCheckoutFunc
     )
-
+    //// api admin
+    router.post("/admin/login",
+        userController.adminLoginFunc
+    )
+    router.post("/admin/register",
+        userController.adminRegisterFunc
+    )
     // cart api
     router.post("/cart/read",
         cartController.readFunc
@@ -57,7 +70,26 @@ const initApiRoutes = (app) => {
     router.post("/add-user-to-cart",
         cartController.addUserToCartFunc
     )
-
+    // blog controller
+    router.get("/blog/read",
+        blogController.readFunc
+    )
+    // category controller
+    router.get("/category/read",
+        categoryController.readFunc
+    )
+    // payment controller
+    router.get("/payment/read",
+        paymentController.readFunc
+    )
+    // shipping controller
+    router.get("/shipping/read",
+        shippingController.readFunc
+    )
+    // order controller
+    router.get("/order/read",
+        orderController.readFuncAll
+    )
     return app.use("/api/v1", router);
 };
 export default initApiRoutes;
