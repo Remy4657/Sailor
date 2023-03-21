@@ -131,7 +131,7 @@ const updateShippingFunc = async (req, res) => {
 const addUserToCartFunc = async (req, res) => {
     try {
 
-        console.log('id account add to cart controller: ', req.body.idAccount)
+        //console.log('id account add to cart controller: ', req.body.idAccount)
         let data = await cartService.addUserToCart(req.body.idAccount)
 
         return res.status(200).json({
